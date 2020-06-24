@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
-  before_action :move_to_index
+  before_action :move_to_index, except: :index
 
   def index
     @tweets = Tweet.includes(:user).order("created_at DESC")
@@ -38,7 +38,7 @@ class TweetsController < ApplicationController
 
   private
   def tweet_params
-    params.require(:tweet).permit(:image, :text).merge(user_id: current_user.id)
+    params.require(:tweet).permit(:image, :text, :tag_ids).merge(user_id: current_user.id)
   end
 
   def set_tweet
